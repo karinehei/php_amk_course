@@ -1,0 +1,16 @@
+# Enable PHP index files
+DirectoryIndex index.php
+
+# Handle errors
+ErrorDocument 404 /404.html
+
+AddHandler application/x-httpd-php .php
+AddType application/x-httpd-php .php
+
+# Ensure PHP files are processed
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+
+# Security: Disable directory listing
+Options -Indexes

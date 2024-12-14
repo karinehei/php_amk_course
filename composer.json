@@ -1,0 +1,22 @@
+{
+    "name": "karine/final_task_karine_heinonen",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Karine\\FinalTaskKarineHeinonen\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Karine Heinonen",
+            "email": "karine.heinonen@student.lab.fi"
+        }
+    ],
+    "require": {
+        "php": ">=8.1.2",
+        "symfony/console": "^5.4",
+        "phpoffice/phpspreadsheet": "~3.3.0",
+      "ext-pdo": "*"
+    }
+}
+
