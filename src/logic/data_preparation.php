@@ -8,8 +8,13 @@ $filters = isset($filters) ? (array)$filters : [];
 
 // Fetch data and calculate pagination
 $result = fetchAlkoData((int)$page, (array)$filters);
-$data = $result['data'];
-$totalRows = $result['totalRows'];
+if ($result === false) {
+    $data = [];
+    $totalRows = 0;
+} else {
+    $data = $result['data'];
+    $totalRows = $result['totalRows'];
+}
 
 $itemsPerPage = 25;
 $totalPages = (int)ceil($totalRows / $itemsPerPage);

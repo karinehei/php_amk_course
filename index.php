@@ -1,7 +1,10 @@
 <!-- Data preparation -->
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 require_once __DIR__ . '/src/logic/data_preparation.php';
-require_once __DIR__ . '/src/logic/update_price_list.php';
 require_once __DIR__ . '/src/logic/update_check.php';
 checkAndUpdatePriceList();
 ?>
@@ -15,11 +18,12 @@ checkAndUpdatePriceList();
     <!-- Update Feedback -->
     <div id="update-feedback">
         <?php
-        if (file_exists('/tmp/last_update.txt')) {
-            $lastUpdate = date("d.m.Y H:i:s", filemtime('/tmp/last_update.txt'));
-            echo "Last updated on: $lastUpdate";
+        $lastUpdateFile = sys_get_temp_dir() . '/last_update.txt';
+        if (file_exists($lastUpdateFile)) {
+            $lastUpdate = date("d.m.Y H:i:s", filemtime($lastUpdateFile));
+            echo "Last updated: $lastUpdate";
         } else {
-            echo "Data is being updated...";
+            echo "Update pending or download failed – upload manually to temp/alko_price_list_manual.xlsx if needed";
         }
         ?>
     </div>

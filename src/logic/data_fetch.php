@@ -1,5 +1,5 @@
 <?php
-require_once 'db_connection.php';
+require_once __DIR__ . '/db_connection.php';
 
 function fetchAlkoData(int $page = 1, array $filters = []): array|bool {
     $pdo = getDbConnection();

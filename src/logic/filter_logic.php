@@ -26,6 +26,9 @@ function generateDropdownOptions(array $values, ?string $selectedValue = null): 
  */
 function getTypeOptions(): array {
     $pdo = getDbConnection();
+    if (!$pdo) {
+        return [];
+    }
     try {
         $sql = "SELECT DISTINCT type FROM alko_price_list ORDER BY type ASC";
         $stmt = $pdo->query($sql);
@@ -44,6 +47,9 @@ function getTypeOptions(): array {
  */
 function getCountryOptions(): array {
     $pdo = getDbConnection();
+    if (!$pdo) {
+        return [];
+    }
     try {
         $sql = "SELECT DISTINCT country_of_manufacture FROM alko_price_list ORDER BY country_of_manufacture ASC";
         $stmt = $pdo->query($sql);
@@ -84,6 +90,9 @@ function generateBottleSizeOptions(array $sizes, ?string $selectedSize = null): 
  */
 function getBottleSizeOptions(): array {
     $pdo = getDbConnection();
+    if (!$pdo) {
+        return [];
+    }
     try {
         $sql = "SELECT DISTINCT bottle_size FROM alko_price_list ORDER BY bottle_size ASC";
         $stmt = $pdo->query($sql);
@@ -102,6 +111,9 @@ function getBottleSizeOptions(): array {
  */
 function getPriceRange(): array {
     $pdo = getDbConnection();
+    if (!$pdo) {
+        return ['min_price' => 0, 'max_price' => 500];
+    }
     try {
         $sql = "SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM alko_price_list";
         $stmt = $pdo->prepare($sql);
@@ -120,6 +132,9 @@ function getPriceRange(): array {
  */
 function getEnergyRange(): array {
     $pdo = getDbConnection();
+    if (!$pdo) {
+        return ['min_energy' => 0, 'max_energy' => 500];
+    }
     try {
         $sql = "SELECT MIN(energy_kcal_per_100ml) AS min_energy, MAX(energy_kcal_per_100ml) AS max_energy FROM alko_price_list";
         $stmt = $pdo->prepare($sql);
