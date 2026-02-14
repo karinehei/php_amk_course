@@ -2,55 +2,104 @@
 
 ## Overview
 
-The **Alko Product Catalog** is a web-based application designed for filtering, searching, and browsing a database of Alko products. Users can filter the products based on attributes like product type, country of manufacture, bottle size, price range, and energy range. The app includes pagination and dynamic dropdowns, making navigation intuitive and efficient.
-
+The **Alko Product Catalog** is a web-based application for filtering, searching, and browsing Alko products. Users can filter by product type, country, bottle size, price range, and energy range.
 
 ### Key Features
-- **Dynamic Filtering**: Filter products by type, country, bottle size, price range, and energy range.
-- **Responsive Pagination**: Navigate between pages with pagination controls.
-- **Interactive Forms**: Dynamic dropdowns and manual input fields for range filters.
-- **Database Integration**: Fetch product data directly from a MySQL database.
-- **Separation of Concerns**: Modular code structure with reusable components.
-
----
-
-## File Structure
-
-### Project Root
-- `index.php`: Main entry point of the application.
-- `composer.json` / `composer.lock`: PHP dependencies for the project.
-
-### `src/` Directory
-- **`logic/`**: Backend logic and database-related operations.
-    - `data_fetch.php`: Functions to fetch data from the database.
-    - `data_preparation.php`: Prepares data for display (e.g., pagination logic).
-    - `db_connection.php`: Handles the database connection setup.
-    - `filter_logic.php`: Logic for managing filter inputs and validation.
-    - `filters.php`: Defines global filter variables and structures.
-    - `update_price_list.php`: Script to update the product price list in the database.
-- **`partials/`**: Reusable frontend components.
-    - `filter_form.php`: Generates the filter form for the catalog.
-    - `footer.php`: Contains the footer HTML.
-    - `header.php`: Contains the header HTML.
-    - `pagination_logic.php`: Logic for creating pagination components.
-    - `table_rows.php`: Generates table rows for the product display.
-
-### `scripts/` Directory
-- `inputs.js`: JavaScript for handling frontend interactions (e.g., dropdowns, input validation).
-
-### `css/` Directory
-- `styles.css`: Custom styles for the application.
-
-### Database
-- `db.sql`: SQL file for setting up the database schema and inserting initial data.
+- **Dynamic Filtering**: Filter by type, country, bottle size, price range, energy range.
+- **Responsive Pagination**: Navigate between pages.
+- **Database Integration**: MySQL database with product data.
+- **Automatic Price List Updates**: Fetches the latest Alko price list (sitemap discovery + manual fallback).
 
 ---
 
 ## Installation
 
 ### Prerequisites
-- PHP 7.4 or higher
+- PHP 8.0 or higher
 - Composer
 - MySQL
-- Apache
+- Apache or Nginx
+
+### Setup
+
+1. **Clone and install dependencies**
+   ```bash
+   composer install
+   ```
+
+2. **Database**
+   - Create database and run `src/logic/db.sql`
+   - Configure credentials in `src/logic/db_connection.php` or via env vars: `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
+
+3. **Point document root** to the project directory (or `public_html` if applicable)
+
+---
+
+## CI/CD (GitHub Actions)
+
+### CI (runs on push/PR)
+- PHP 8.1, 8.2, 8.3
+- `composer install`
+- PHP syntax check
+- `composer validate`
+
+### Deploy (runs on push to main)
+- Deploys to Hostinger via FTP
+- Configure GitHub secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`
+- Adjust `server-dir` in `.github/workflows/deploy.yml` if your Hostinger path differs
+
+---
+
+## Price List Update – How It Works
+
+Alko has no official public API for the full price list. The app uses this strategy:
+
+### 1. Sitemap Discovery (primary)
+- Fetches `robots.txt` → parses sitemap URLs → searches for hinnasto/tekstitiedostona links
+- Finds the current download URL even when Alko changes file paths
+- Most durable approach; avoids hardcoding a single URL
+
+### 2. Hardcoded Fallbacks
+- If sitemap discovery finds nothing, tries known URLs
+- Kept as backup; harmless if URLs are dead
+
+### 3. Manual Upload (when download fails)
+- Alko often blocks automated requests from servers
+- **Workaround**: Download the price list in your browser from [alko.fi/valikoimat-ja-hinnasto](https://www.alko.fi/fi/valikoimat-ja-hinnasto), then upload the `.xlsx` file to:
+  ```
+  temp/alko_price_list_manual.xlsx
+  ```
+- The script will use this file on the next update run
+
+### Update Schedule
+- Runs automatically when cache expires (default: every 1 hour)
+- On Hostinger: `exec()` is disabled, so the update runs inline on page load (first load after cache expiry may take 30–60 seconds)
+
+---
+
+## File Structure
+
+### Project Root
+- `index.php` – Main entry point
+- `composer.json` – PHP dependencies
+
+### `src/logic/`
+- `update_price_list.php` – Downloads and imports Alko price list (sitemap discovery, sanitization, DB insert)
+- `update_check.php` – Triggers update when cache expires (exec or inline)
+- `data_fetch.php` – Fetches products from DB
+- `data_preparation.php` – Pagination and data prep
+- `db_connection.php` – Database connection
+- `filter_logic.php` – Filter options from DB
+- `filters.php` – Filter variables
+- `config.example.php` – Example config (copy to `config.php` for local credentials)
+
+### `src/partials/`
+- `header.php`, `footer.php`, `filter_form.php`, `table_rows.php`, `pagination_logic.php`
+
+### `scripts/`, `css/`
+- `scripts/inputs.js` – Frontend interactions
+- `css/styles.css` – Custom styles
+
+### Database
+- `src/logic/db.sql` – Schema for `alko_price_list` table
 
