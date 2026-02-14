@@ -1,6 +1,7 @@
 name: Deploy to Hostinger
 
-# Manual trigger only – add FTP secrets first, then run from Actions tab
+# Manual trigger only – add SFTP secrets first, then run from Actions tab
+# Hostinger uses SFTP (port 65002), not FTP. Get server IP from hPanel → Advanced → SSH Access
 on:
   workflow_dispatch:
 
@@ -20,23 +21,15 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: ./public_html/
-          exclude: |
-            **/.git*
-            **/.github
-            **/node_modules
-            **/.env
-            **/.env.*
-            **/config.php
-            **/debug.php
-            **/temp/
-            **/*.md
-            **/.gitignore
-          dangerous-clean-slate: false
+          server: ${{ secrets.SFTP_SERVER }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: 65002
+          sftp_only: true
+          local_path: './'
+          remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
+          rsyncArgs: '--exclude=.git --exclude=.github --exclude=node_modules --exclude=.env --exclude=.env.* --exclude=config.php --exclude=debug.php --exclude=temp/ --exclude=*.md --exclude=.gitignore'
+          sftpArgs: '-o ConnectTimeout=10'

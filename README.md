@@ -44,10 +44,13 @@ The **Alko Product Catalog** is a web-based application for filtering, searching
 - `composer validate`
 
 ### Deploy (manual trigger)
-- **Before first run**: Add GitHub secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`  
-  (Settings → Secrets and variables → Actions)
+- **Before first run**: Add GitHub secrets (Settings → Secrets and variables → Actions):
+  - `SFTP_SERVER` – Hostinger SSH/SFTP IP (hPanel → Advanced → SSH Access)
+  - `SFTP_USERNAME` – FTP/SSH username
+  - `SFTP_PASSWORD` – FTP password
+  - `SFTP_REMOTE_PATH` – e.g. `/home/u1234567/domains/yourdomain.com/public_html`
 - **Trigger**: Actions tab → Deploy to Hostinger → Run workflow
-- Adjust `server-dir` in `.github/workflows/deploy.yml` if your Hostinger path differs
+- Hostinger uses SFTP on port 65002 (not FTP)
 
 ---
 
