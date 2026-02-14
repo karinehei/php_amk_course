@@ -1,8 +1,7 @@
 name: Deploy to Hostinger
 
+# Manual trigger only – add FTP secrets first, then run from Actions tab
 on:
-  push:
-    branches: [main, master]
   workflow_dispatch:
 
 jobs:

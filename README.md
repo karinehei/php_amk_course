@@ -43,9 +43,10 @@ The **Alko Product Catalog** is a web-based application for filtering, searching
 - PHP syntax check
 - `composer validate`
 
-### Deploy (runs on push to main)
-- Deploys to Hostinger via FTP
-- Configure GitHub secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`
+### Deploy (manual trigger)
+- **Before first run**: Add GitHub secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`  
+  (Settings → Secrets and variables → Actions)
+- **Trigger**: Actions tab → Deploy to Hostinger → Run workflow
 - Adjust `server-dir` in `.github/workflows/deploy.yml` if your Hostinger path differs
 
 ---
