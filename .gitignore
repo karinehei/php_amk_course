@@ -1,0 +1,23 @@
+# Dependencies
+/vendor/
+
+# Local config (DB credentials – never commit)
+.env
+.env.*
+!.env.example
+src/logic/config.php
+
+# Temp / generated
+/temp/
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Debug (remove in production)
+/debug.php
