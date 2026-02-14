@@ -22,14 +22,14 @@ jobs:
         run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader
 
       - name: Deploy via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+        uses: milanmk/actions-file-deployer@master
         with:
-          server: ${{ secrets.SFTP_SERVER }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: 65002
-          sftp_only: true
-          local_path: './'
-          remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
-          rsyncArgs: '--exclude=.git --exclude=.github --exclude=node_modules --exclude=.env --exclude=.env.* --exclude=config.php --exclude=debug.php --exclude=temp/ --exclude=*.md --exclude=.gitignore'
-          sftpArgs: '-o ConnectTimeout=10'
+          remote-protocol: sftp
+          remote-host: ${{ secrets.SFTP_SERVER }}
+          remote-port: 65002
+          remote-user: ${{ secrets.SFTP_USERNAME }}
+          remote-password: ${{ secrets.SFTP_PASSWORD }}
+          remote-path: ${{ secrets.SFTP_REMOTE_PATH }}
+          local-path: ./
+          sync: full
+          ftp-mirror-options: '--exclude-glob=.git* --exclude-glob=.github --exclude-glob=node_modules --exclude-glob=.env* --exclude-glob=config.php --exclude-glob=debug.php --exclude-glob=temp/ --exclude-glob=*.md --exclude-glob=.gitignore'
