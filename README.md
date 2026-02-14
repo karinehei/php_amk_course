@@ -103,3 +103,11 @@ Alko has no official public API for the full price list. The app uses this strat
 ### Database
 - `src/logic/db.sql` – Schema for `alko_price_list` table
 
+---
+
+## License
+
+Copyright (c) 2026 Karine Heinonen. All rights reserved.
+
+See [LICENSE](LICENSE) for details.
+
