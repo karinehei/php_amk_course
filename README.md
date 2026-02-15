@@ -1,8 +1,8 @@
-# Final Task - Alko Product Catalog
+# Alko Catalog
 
 ## Overview
 
-The **Alko Product Catalog** is a web-based application for filtering, searching, and browsing Alko products. Users can filter by product type, country, bottle size, price range, and energy range.
+**Alko Catalog** is a web-based application for filtering, searching, and browsing Alko products. Users can filter by product type, country, bottle size, price range, and energy range.
 
 ### Key Features
 - **Dynamic Filtering**: Filter by type, country, bottle size, price range, energy range.
@@ -13,6 +13,12 @@ The **Alko Product Catalog** is a web-based application for filtering, searching
 ---
 
 ## Installation
+
+### Clone
+```bash
+git clone https://github.com/YOUR_USERNAME/alko-catalog.git
+cd alko-catalog
+```
 
 ### Prerequisites
 - PHP 8.0 or higher

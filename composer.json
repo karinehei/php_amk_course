@@ -1,11 +1,11 @@
 {
-    "name": "karine/final_task_karine_heinonen",
+    "name": "karine/alko-catalog",
     "description": "Alko product catalog with filtering and price list updates",
     "type": "project",
     "license": "proprietary",
     "autoload": {
         "psr-4": {
-            "Karine\\FinalTaskKarineHeinonen\\": "src/"
+            "AlkoCatalog\\": "src/"
         }
     },
     "authors": [

@@ -14,7 +14,7 @@ checkAndUpdatePriceList();
 
 <div class="container">
     <!-- Title -->
-    <h1 class="text-center mb-4">Alko Product Catalog <?php echo date("d.m.Y"); ?></h1>
+    <h1 class="text-center mb-4">Alko Catalog <?php echo date("d.m.Y"); ?></h1>
     <!-- Update Feedback -->
     <div id="update-feedback">
         <?php
