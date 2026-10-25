@@ -4,7 +4,9 @@
 
 **Alko Catalog** is a web-based application for filtering, searching, and browsing Alko products.
 
-**Live site:** [https://sandybrown-crow-910642.hostingersite.com/](https://sandybrown-crow-910642.hostingersite.com/) Users can filter by product type, country, bottle size, price range, and energy range.
+**Live site:** [https://price-list.caeloryxsystems.com/](https://price-list.caeloryxsystems.com/)
+
+Users can filter by product type, country, bottle size, price range, and energy range.
 
 ### Key Features
 - **Dynamic Filtering**: Filter by type, country, bottle size, price range, energy range.
@@ -12,14 +14,20 @@
 - **Database Integration**: MySQL database with product data.
 - **Automatic Price List Updates**: Fetches the latest Alko price list (sitemap discovery + manual fallback).
 
+### Hosting
+- **Hostinger** – PHP hosting for this app (`price-list.caeloryxsystems.com`)
+- **Cloudflare** – DNS and proxy for `caeloryxsystems.com` (A record `price-list` → Hostinger IP, proxied)
+- SSL: Hostinger origin cert + Cloudflare **Full (strict)** recommended
+- Prefer Cloudflare CDN; keep Hostinger CDN off for this site to avoid double CDN
+
 ---
 
 ## Installation
 
 ### Clone
 ```bash
-git clone https://github.com/YOUR_USERNAME/alko-catalog.git
-cd alko-catalog
+git clone https://github.com/karinehei/php_amk_course.git
+cd php_amk_course
 ```
 
 ### Prerequisites
@@ -53,12 +61,13 @@ cd alko-catalog
 
 ### Deploy (manual trigger)
 - **Before first run**: Add GitHub secrets (Settings → Secrets and variables → Actions):
-  - `SFTP_SERVER` – Hostinger SSH/SFTP IP (hPanel → Advanced → SSH Access)
+  - `SFTP_SERVER` – Hostinger SSH/SFTP IP (hPanel → Advanced → SSH Access), e.g. `45.84.207.249`
   - `SFTP_USERNAME` – FTP/SSH username
   - `SFTP_PASSWORD` – FTP password
-  - `SFTP_REMOTE_PATH` – e.g. `/home/u1234567/domains/yourdomain.com/public_html`
+  - `SFTP_REMOTE_PATH` – e.g. `/home/u1234567/domains/price-list.caeloryxsystems.com/public_html`
 - **Trigger**: Actions tab → Deploy to Hostinger → Run workflow
 - Hostinger uses SFTP on port 65002 (not FTP)
+- After deploy, confirm: [https://price-list.caeloryxsystems.com/](https://price-list.caeloryxsystems.com/)
 
 ---
 
